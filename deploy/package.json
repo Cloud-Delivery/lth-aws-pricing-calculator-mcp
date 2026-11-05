@@ -1,0 +1,30 @@
+{
+  "name": "lth-aws-pricing-mcp-deploy",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc && node scripts/package.cjs",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test test/*.test.cjs",
+    "synth": "npm run build && cdk synth --profile lutechlab-sandbox",
+    "cdk": "cdk"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "3.1163.0",
+    "@aws-sdk/lib-dynamodb": "3.1163.0",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "aws-cdk-lib": "2.275.0",
+    "constructs": "10.5.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "express": "5.2.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.152",
+    "@types/node": "22.15.30",
+    "aws-cdk": "2.1148.0",
+    "esbuild": "0.28.2",
+    "typescript": "5.8.3"
+  }
+}

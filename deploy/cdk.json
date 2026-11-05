@@ -1,0 +1,8 @@
+{
+  "app": "node build/bin/app.js",
+  "context": {
+    "apiKeyGeneration": "v1",
+    "overlapApiKeyGenerations": [],
+    "revokedApiKeyGenerations": []
+  }
+}

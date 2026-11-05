@@ -1,0 +1,110 @@
+<mxfile host="Electron" version="29.6.1">
+  <diagram id="arch-page" name="Architettura">
+    <mxGraphModel dx="1800" dy="1000" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1800" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="arch-title" value="AWS Pricing Calculator MCP - Sandbox Lutech" style="text;html=1;align=left;verticalAlign=top;fontSize=30;fontStyle=1;fontFamily=Helvetica;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="50" y="30" width="1200" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-subtitle" value="Design proposto, non distribuito | Account 695076071513 | eu-south-1 | 2026-11-05" style="text;html=1;align=left;fontSize=16;fontFamily=Helvetica;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="1200" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-separator" value="" style="line;strokeColor=#FF9900;strokeWidth=2;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="50" y="120" width="1200" height="10" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-cloud" value="AWS Account sandbox 695076071513 - LthAwsPricingMcpStack (pianificato)" style="shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;outlineConnect=0;gradientColor=none;rounded=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;html=1;whiteSpace=wrap;verticalAlign=top;align=left;spacing=0;spacingLeft=40;spacingTop=6;fontSize=14;fontStyle=1;fontFamily=Helvetica;fillColor=light-dark(#CD22640D,#CD22640D);fillStyle=auto;strokeColor=#CD2264;fontColor=#CD2264;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="320" y="160" width="940" height="640" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-region" value="Regione eu-south-1" style="shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;outlineConnect=0;gradientColor=none;rounded=0;container=0;pointerEvents=0;collapsible=0;recursiveResize=0;html=1;whiteSpace=wrap;verticalAlign=top;align=left;spacing=0;spacingLeft=40;spacingTop=6;fontSize=14;fontStyle=1;fontFamily=Helvetica;fillColor=light-dark(#0C7B7D0D,#0C7B7D0D);fillStyle=auto;strokeColor=#00A4A6;fontColor=#00A4A6;dashed=1;" vertex="1" parent="arch-cloud">
+          <mxGeometry x="20" y="50" width="900" height="570" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-client" value="Microsoft Copilot Studio&lt;br&gt;&lt;i&gt;AWS Pricing Calculator&lt;br&gt;agente esistente&lt;/i&gt;" style="rounded=1;container=1;pointerEvents=0;collapsible=0;html=1;verticalAlign=top;spacingTop=8;whiteSpace=wrap;fontSize=12;fontStyle=1;fontFamily=Helvetica;fillColor=light-dark(#F5F5F5,#29393B);fillStyle=auto;strokeColor=light-dark(#666666,#D4D4D4);shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="300" width="160" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-client-icon" value="" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.generic_application;sketch=0;aspect=fixed;fillColor=#01A88D;strokeColor=#FFFFFF;fontFamily=Helvetica;" vertex="1" parent="arch-client">
+          <mxGeometry x="56" y="65" width="48" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-api-container" value="Ingresso MCP" style="rounded=1;container=1;pointerEvents=0;collapsible=0;html=1;verticalAlign=top;fontSize=12;fontStyle=1;fontFamily=Helvetica;fillColor=light-dark(#EDE7F6,#292139);fillStyle=auto;strokeColor=#8C4FFF;fontColor=#8C4FFF;shadow=1;" vertex="1" parent="arch-cloud">
+          <mxGeometry x="60" y="140" width="120" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-api" value="Amazon API Gateway&lt;div&gt;&lt;i&gt;REST API&lt;/i&gt;&lt;/div&gt;" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;sketch=0;aspect=fixed;outlineConnect=0;fillColor=#8C4FFF;strokeColor=#FFFFFF;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontFamily=Helvetica;" vertex="1" parent="arch-api-container">
+          <mxGeometry x="36" y="30" width="48" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-api-note" value="API key generata + usage plan dedicato&lt;br&gt;Key richiesta su tutti i metodi MCP&lt;br&gt;Chiave mancante/errata: 403, non invoca Lambda" style="text;html=1;whiteSpace=wrap;align=center;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="arch-cloud">
+          <mxGeometry x="25" y="280" width="260" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-lambda-container" value="Servizio MCP" style="rounded=1;container=1;pointerEvents=0;collapsible=0;html=1;verticalAlign=top;fontSize=12;fontStyle=1;fontFamily=Helvetica;fillColor=light-dark(#FFF2E8,#39291F);fillStyle=auto;strokeColor=#ED7100;fontColor=#ED7100;shadow=1;" vertex="1" parent="arch-cloud">
+          <mxGeometry x="360" y="140" width="120" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-lambda" value="AWS Lambda&lt;div&gt;&lt;i&gt;Adapter + Express&lt;/i&gt;&lt;/div&gt;" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;sketch=0;aspect=fixed;outlineConnect=0;fillColor=#ED7100;strokeColor=#FFFFFF;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontFamily=Helvetica;" vertex="1" parent="arch-lambda-container">
+          <mxGeometry x="36" y="30" width="48" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-lambda-note" value="Upstream invariato + catalogo incluso&lt;br&gt;MCP_TRANSPORT=http&lt;br&gt;ESTIMATES_STORE=dynamodb&lt;br&gt;Adapter e timeout da validare" style="text;html=1;whiteSpace=wrap;align=center;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="arch-cloud">
+          <mxGeometry x="290" y="280" width="260" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-ddb-container" value="Persistenza stime" style="rounded=1;container=1;pointerEvents=0;collapsible=0;html=1;verticalAlign=top;fontSize=12;fontStyle=1;fontFamily=Helvetica;fillColor=light-dark(#F5E6F7,#352139);fillStyle=auto;strokeColor=#C925D1;fontColor=#C925D1;shadow=1;" vertex="1" parent="arch-cloud">
+          <mxGeometry x="660" y="140" width="120" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-ddb" value="Amazon DynamoDB&lt;div&gt;&lt;i&gt;Calculator / stime&lt;/i&gt;&lt;/div&gt;" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;sketch=0;aspect=fixed;outlineConnect=0;fillColor=#C925D1;strokeColor=#FFFFFF;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontFamily=Helvetica;" vertex="1" parent="arch-ddb-container">
+          <mxGeometry x="36" y="30" width="48" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-ddb-note" value="Chiave id + snapshot JSON&lt;br&gt;ESTIMATES_TABLE collegata dalla CDK&lt;br&gt;Persistenza tra invocazioni e cold start&lt;br&gt;Concorrenza aggiornamenti: rischio aperto T08" style="text;html=1;whiteSpace=wrap;align=center;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="arch-cloud">
+          <mxGeometry x="580" y="280" width="290" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-upstream" value="AWS Pricing Calculator&lt;br&gt;&lt;i&gt;API/CDN esterni allo stack&lt;/i&gt;" style="rounded=1;container=1;pointerEvents=0;collapsible=0;html=1;verticalAlign=top;spacingTop=8;fontSize=12;fontFamily=Helvetica;fontStyle=1;fillColor=light-dark(#F5F5F5,#29393B);fillStyle=auto;strokeColor=light-dark(#666666,#D4D4D4);shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="600" width="160" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-upstream-icon" value="" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.internet;sketch=0;aspect=fixed;fillColor=#8C4FFF;strokeColor=#FFFFFF;fontFamily=Helvetica;" vertex="1" parent="arch-upstream">
+          <mxGeometry x="56" y="60" width="48" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-aux" value="Osservabilita (pianificata)" style="rounded=0;container=1;pointerEvents=0;collapsible=0;dashed=1;html=1;verticalAlign=top;fontSize=14;fontFamily=Helvetica;fillColor=none;strokeColor=#666666;" vertex="1" parent="arch-cloud">
+          <mxGeometry x="660" y="420" width="220" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-logs-container" value="Log e metriche" style="rounded=1;container=1;pointerEvents=0;collapsible=0;html=1;verticalAlign=top;fontSize=12;fontStyle=1;fontFamily=Helvetica;fillColor=light-dark(#FCE4EC,#391F2B);fillStyle=auto;strokeColor=#E7157B;fontColor=#E7157B;" vertex="1" parent="arch-aux">
+          <mxGeometry x="50" y="35" width="120" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-logs" value="Amazon CloudWatch&lt;div&gt;&lt;i&gt;Logs: retention 7 giorni&lt;br&gt;Nessuna key nei log&lt;/i&gt;&lt;/div&gt;" style="shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;sketch=0;aspect=fixed;fillColor=#E7157B;strokeColor=#FFFFFF;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontFamily=Helvetica;" vertex="1" parent="arch-logs-container">
+          <mxGeometry x="36" y="30" width="48" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-outbound-note" value="Chiamate HTTPS outbound secondo il tool&lt;br&gt;Build/export: copie esterne solo con approvazione&lt;br&gt;Nessuna VPC/NAT o Function URL previsti" style="text;html=1;whiteSpace=wrap;align=left;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="arch-cloud">
+          <mxGeometry x="50" y="480" width="450" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-edge-client-api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;strokeColor=#545B64;endArrow=block;startArrow=block;exitX=1;exitY=0.45;entryX=0;entryY=0.5;" edge="1" parent="1" source="arch-client" target="arch-api">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-label-client-api" value="HTTPS /mcp&lt;br&gt;x-api-key" style="edgeLabel;html=1;align=center;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=none;" vertex="1" connectable="0" parent="arch-edge-client-api">
+          <mxGeometry x="0" y="-25" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="arch-edge-api-lambda" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;strokeColor=#545B64;endArrow=block;startArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arch-api" target="arch-lambda">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-label-api-lambda" value="Integrazione Lambda&lt;br&gt;MCP JSON / SSE" style="edgeLabel;html=1;align=center;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=none;" vertex="1" connectable="0" parent="arch-edge-api-lambda">
+          <mxGeometry x="0" y="-25" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="arch-edge-lambda-ddb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;strokeColor=#545B64;endArrow=block;startArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="arch-lambda" target="arch-ddb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-label-lambda-ddb" value="Get / Put / Delete&lt;br&gt;IAM minimo sulla tabella" style="edgeLabel;html=1;align=center;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=none;" vertex="1" connectable="0" parent="arch-edge-lambda-ddb">
+          <mxGeometry x="0" y="-25" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="arch-edge-lambda-external" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;strokeColor=#545B64;endArrow=block;startArrow=block;exitX=1;exitY=0.75;entryX=1;entryY=0.5;" edge="1" parent="1" source="arch-lambda" target="arch-upstream">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="885" y="366"/><mxPoint x="885" y="600"/><mxPoint x="280" y="600"/><mxPoint x="280" y="660"/></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="arch-step-1" value="1" style="rounded=1;html=1;fillColor=#007CBD;strokeColor=default;strokeWidth=2;shadow=1;glass=0;fontColor=#FFFFFF;fontSize=16;fontStyle=1;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="250" y="290" width="28" height="28" as="geometry"/></mxCell>
+        <mxCell id="arch-step-2" value="2" style="rounded=1;html=1;fillColor=#007CBD;strokeColor=default;strokeWidth=2;shadow=1;glass=0;fontColor=#FFFFFF;fontSize=16;fontStyle=1;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="560" y="290" width="28" height="28" as="geometry"/></mxCell>
+        <mxCell id="arch-step-3" value="3" style="rounded=1;html=1;fillColor=#007CBD;strokeColor=default;strokeWidth=2;shadow=1;glass=0;fontColor=#FFFFFF;fontSize=16;fontStyle=1;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="820" y="290" width="28" height="28" as="geometry"/></mxCell>
+        <mxCell id="arch-step-4" value="4" style="rounded=1;html=1;fillColor=#007CBD;strokeColor=default;strokeWidth=2;shadow=1;glass=0;fontColor=#FFFFFF;fontSize=16;fontStyle=1;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="850" y="385" width="28" height="28" as="geometry"/></mxCell>
+        <mxCell id="arch-legend" value="" style="rounded=0;container=1;pointerEvents=0;collapsible=0;html=1;fontFamily=Helvetica;fillColor=light-dark(#EDF3FF,#305363);fillStyle=auto;strokeColor=#6C8EBF;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="30" width="440" height="790" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch-legend-title" value="Flusso e decisioni" style="text;html=1;align=left;fontSize=20;fontStyle=1;fontFamily=Helvetica;" vertex="1" parent="arch-legend"><mxGeometry x="20" y="20" width="400" height="40" as="geometry"/></mxCell>
+        <mxCell id="arch-legend-steps" value="&lt;span style=&quot;color: light-dark(rgb(0,0,0), rgb(255,255,255));&quot;&gt;&lt;b&gt;1. Connessione Copilot Studio&lt;/b&gt;&lt;br&gt;Streamable HTTP con key grezza in x-api-key. Wizard e prova reale dopo deploy (T31).&lt;br&gt;&lt;br&gt;&lt;b&gt;2. Esecuzione MCP&lt;/b&gt;&lt;br&gt;REST API verifica la key; Lambda inoltra al listener Express mediante adapter da validare (T05/T06).&lt;br&gt;&lt;br&gt;&lt;b&gt;3. Stato persistente&lt;/b&gt;&lt;br&gt;DynamoDB conserva stime tra invocazioni. Gli aggiornamenti concorrenti richiedono analisi T08.&lt;br&gt;&lt;br&gt;&lt;b&gt;4. API del Calculator&lt;/b&gt;&lt;br&gt;Dipendenze esterne gia presenti nel codice. Operazioni di salvataggio esterno solo su approvazione.&lt;br&gt;&lt;br&gt;&lt;i&gt;Frecce bidirezionali: richiesta e risposta. CloudWatch: supporto operativo, non passo applicativo.&lt;/i&gt;&lt;/span&gt;" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="arch-legend"><mxGeometry x="20" y="75" width="400" height="400" as="geometry"/></mxCell>
+        <mxCell id="arch-legend-risk" value="&lt;b&gt;ECCEZIONE SOLO SANDBOX&lt;/b&gt;&lt;br&gt;AWS sconsiglia API key come autenticazione/autorizzazione. Accettata dall'utente come controllo di usage plan, non identita.&lt;br&gt;&lt;br&gt;Key condivisa, nessun isolamento per utente. Quota/throttling best-effort.&lt;br&gt;&lt;br&gt;Nessuna Lambda authorizer o Secrets Manager. Chromium e get_estimate_cost esclusi (implementazione da verificare).&lt;br&gt;&lt;br&gt;Costi, adapter, timeout e design definitivo ancora da approvare in T10." style="rounded=1;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=12;fontSize=13;fontFamily=Helvetica;fillColor=light-dark(#FFF2E8,#39291F);fillStyle=auto;strokeColor=#ED7100;" vertex="1" parent="arch-legend"><mxGeometry x="20" y="490" width="400" height="280" as="geometry"/></mxCell>
+        <mxCell id="arch-footer" value="Stato: risorse AWS pianificate, nessun deploy attestato. IaC CDK prevista in deploy/; upstream read-only. Volumi: &lt; 1000 richieste/giorno.&lt;br&gt;Non abilitato: tool Chromium. API key sandbox approvata; implementazione, costi e collaudo restano aperti." style="text;html=1;whiteSpace=wrap;align=left;fontSize=13;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="50" y="850" width="1200" height="65" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

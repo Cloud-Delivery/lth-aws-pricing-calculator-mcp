@@ -1,0 +1,48 @@
+{
+  "resource": "/mcp",
+  "path": "/mcp",
+  "httpMethod": "POST",
+  "headers": {
+    "Accept": "application/json, text/event-stream",
+    "Content-Type": "application/json",
+    "Host": "example.execute-api.eu-south-1.amazonaws.com",
+    "MCP-Protocol-Version": "2025-03-26"
+  },
+  "multiValueHeaders": {},
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null,
+  "pathParameters": null,
+  "stageVariables": null,
+  "requestContext": {
+    "resourceId": "example-resource",
+    "resourcePath": "/mcp",
+    "httpMethod": "POST",
+    "extendedRequestId": "fixture-extended",
+    "requestTime": "05/Nov/2026:22:00:00 +0000",
+    "path": "/sandbox/mcp",
+    "accountId": "695076071513",
+    "protocol": "HTTP/1.1",
+    "stage": "sandbox",
+    "domainPrefix": "example",
+    "requestTimeEpoch": 1793916000000,
+    "requestId": "fixture-request",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "accountId": null,
+      "cognitoIdentityId": null,
+      "caller": null,
+      "sourceIp": "192.0.2.1",
+      "principalOrgId": null,
+      "accessKey": null,
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null,
+      "userArn": null,
+      "userAgent": "deployment-test",
+      "user": null
+    },
+    "domainName": "example.execute-api.eu-south-1.amazonaws.com",
+    "apiId": "example"
+  },
+  "body": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\",\"params\":{}}",
+  "isBase64Encoded": false
+}

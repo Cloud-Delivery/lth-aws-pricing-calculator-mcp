@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "build",
+    "rootDir": ".",
+    "types": ["node", "aws-lambda"]
+  },
+  "include": ["bin/**/*.ts", "lib/**/*.ts", "runtime/**/*.ts"]
+}

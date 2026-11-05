@@ -1,0 +1,4 @@
+[submodule "sample-aws-pricing-calculator-mcp"]
+	path = sample-aws-pricing-calculator-mcp
+	url = git@github.com:aws-samples/sample-aws-pricing-calculator-mcp.git
+	branch = main
