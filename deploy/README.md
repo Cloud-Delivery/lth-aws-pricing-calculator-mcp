@@ -58,7 +58,7 @@ npm --prefix deploy test
 ```
 
 For deliberate submodule upgrades, follow
-[the root workflow](../README_LUTECH.md#repository-layout-and-upstream-upgrades).
+[the root workflow](../README.md#repository-layout-and-upstream-upgrades).
 Never edit the submodule, including for deployment fixes.
 
 Migration validation (2026-11-06): deployment build and all 41 deployment
@@ -69,9 +69,26 @@ Dependency audit reports two moderate findings (`aws-cdk-lib` and
 `minimatch`); no automatic dependency or security-design changes were made.
 These local checks are not deployment or real DynamoDB acceptance.
 
+Dependency remediation check (2026-11-06): the npm registry still lists
+`aws-cdk-lib@2.275.0` and CLI `aws-cdk@2.1148.0` as latest. The library bundles
+`minimatch@10.2.6`, affected by
+[GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249):
+potential denial of service through globparts amplification. The two audit
+findings represent this one advisory and its dependent package.
+The advisory is fixed in `minimatch@11.0.1`; no fixed latest CDK release is
+currently available. This dependency belongs to local CDK tooling, not the
+packaged Lambda runtime. Do not force a downgrade, edit installed packages,
+or claim an npm override fixes this bundled dependency. Pending a fixed CDK
+release, proceeding requires an explicit, documented sandbox exception;
+restrict synthesis and packaging to reviewed local source and glob inputs.
+The user approved this temporary sandbox exception on 2026-11-06.
+Recheck the audit before subsequent deployments and remove the exception
+when a compatible fixed CDK release is available. This approval does not
+replace IaC/compliance checks or approval of the AWS diff and deployment.
+
 ## Approved sandbox direction
 
-Follow [the implementation TODO](./TODO.md), including its handoff prompt.
+Follow [the implementation TODO](../TODO.md), including its handoff prompt.
 
 [High-level AWS architecture (draw.io)](./aws-pricing-mcp-sandbox.drawio):
 one `Architettura` page using official AWS4 icons. It depicts the planned
@@ -316,6 +333,8 @@ diff and approve AWS changes in T28. Runtime/AWS acceptance remains pending.
 
 - [CDK app](./bin/app.ts) and [stack](./lib/stack.ts): target fixed to the
   approved sandbox account and `eu-south-1`.
+  Tags on supported resources: `Owner=Marco Bergantin`,
+  `Project=Copilot Studio AWS Calculator`, `Environment=sandbox`.
 - [Handler](./runtime/handler.ts), [child supervisor](./runtime/server.ts),
   [protocol filter](./runtime/protocol.ts): buffered MCP adapter with a
   25-second total deadline and child termination before returning a failure.
@@ -374,6 +393,23 @@ also possible. Neither method has been executed as part of code generation.
 
 ### Pre-deployment review and shared settings
 
+If AWS CLI identity checks succeed but CDK reports no configured credentials,
+use [the PowerShell credential bridge](./scripts/cdk.ps1). It exports temporary
+credentials from `lutechlab-sandbox` only in process memory, verifies account
+`695076071513`, sets `eu-south-1`, and restores the prior environment afterwards.
+Do not pass `--profile` to the wrapper: CDK must use the verified exported
+credentials rather than retry its failing profile provider.
+
+```powershell
+$logContext = 'apiGatewayCloudWatchRoleArn=arn:aws:iam::695076071513:role/AmazonAPIGatewayPushToCloudWatchLogs'
+.\scripts\cdk.ps1 diff LthAwsPricingMcpStack --no-change-set --context $logContext
+# Only after validation and approval of AWS changes:
+.\scripts\cdk.ps1 deploy LthAwsPricingMcpStack --context $logContext
+```
+
+`--no-change-set` makes the diff template-based without creating a CloudFormation
+change set. The wrapper does not deploy unless explicitly given `deploy`.
+
 1. Revalidate STS, costs, regional reserved-concurrency quota, adapter startup,
    artifact size and the diff. Read-only commands:
 
@@ -430,6 +466,28 @@ Use a finite overlap; propagation can take minutes and must be measured.
 
 ### Diagnostics, rollback and remaining acceptance
 
+Live verification (2026-11-06), after the user's deployment:
+`LthAwsPricingMcpStack` is `CREATE_COMPLETE`; Lambda is active and DynamoDB
+is active with PITR enabled. Both log groups retain 7 days. The enabled v1
+key is bound to its usage plan. The endpoint is
+`https://pvi8d5im32.execute-api.eu-south-1.amazonaws.com/sandbox/mcp`.
+
+Run the repeatable, non-mutating protocol test from `deploy/`:
+
+```powershell
+node .\scripts\smoke-test.cjs
+```
+
+The script verifies account and endpoint before retrieving the key into memory;
+it never prints credentials or MCP response payloads. All 13 live checks passed:
+missing/wrong keys return 403 for POST/GET/DELETE, empty key returns 403 for
+POST, initialization returns 200 SSE, initialized notification returns an empty
+202, discovery and server info expose exactly 9 tools, and keyed GET/DELETE
+return 405. The first Lambda REPORT shows a cold start (140.72 ms initialization,
+1213.74 ms invocation); this does not prove cold-start estimate persistence.
+No estimate was created and no build/export tool was called.
+IaC/compliance checks remain incomplete despite the completed deployment.
+
 - 403: verify key enabled, plan/stage binding and propagation; confirm Lambda
   invocation metrics remain unchanged for rejected requests. Never log the key.
 - 429: inspect stage/plan throttles and Lambda reserved concurrency. Limits
@@ -445,6 +503,6 @@ Use a finite overlap; propagation can take minutes and must be measured.
   No automated rollback or destroy is included.
 - DynamoDB retains data on deletion/replacement, PITR is enabled and TTL is
   absent. Retained storage can continue billing after stack removal.
-- Real DynamoDB persistence/concurrency, Linux/Lambda cold starts, wrong/missing/
-  disabled-key rejection, rotation propagation and Copilot Studio T31 remain
-  deployment acceptance tests, not local-test claims.
+- Real DynamoDB persistence/concurrency across invocations and cold starts,
+  disabled/duplicate/malformed-key checks, long-running paths, rotation
+  propagation and Copilot Studio T31 remain pending acceptance tests.

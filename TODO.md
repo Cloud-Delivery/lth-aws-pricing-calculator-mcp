@@ -21,8 +21,8 @@ Client destinatario: Microsoft Copilot Studio.
   Non presentare questo design come autenticazione equivalente a un authorizer.
   Prima di un uso fuori sandbox serve una nuova decisione sulla sicurezza.
   [Fonte AWS](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html).
-- Usare [aws-serverless-deployer](../.github/agents/aws-serverless-deployer.agent.md)
-  e la [skill di deploy](../.github/skills/aws-serverless-deploy/SKILL.md).
+- Usare [aws-serverless-deployer](./.github/agents/aws-serverless-deployer.agent.md)
+  e la [skill di deploy](./.github/skills/aws-serverless-deploy/SKILL.md).
 - Codice, dipendenze, test, configurazione e documentazione solo in `deploy/`.
   Upstream read-only senza approvazione esplicita.
   Eccezione approvata il 2026-11-05: solo store DynamoDB e relativi test,
@@ -31,7 +31,7 @@ Client destinatario: Microsoft Copilot Studio.
   fino all'approvazione della relativa fase.
 - Non inserire mai valori di chiavi in Git, prompt, output CDK, log o esempi.
 - Completare le checkbox solo con evidenza verificabile; riportare blocchi e
-  comandi non eseguiti. Conservare gli ID T01-T34 per continuita.
+  comandi non eseguiti. Conservare gli ID T01-T36 per continuita.
 
 ## 1. Confermare client e perimetro
 
@@ -56,7 +56,7 @@ runtime del client rimane un rischio esplicito, non un prerequisito circolare.
 
 Criterio per proseguire: T03-T04 confermati e compatibilita documentale
 esaminata. T01/T02 si chiudono solo dopo T31. Nessun deploy autorizzato.
-Vedere [evidenze e checklist client](./T01-copilot-studio-compatibility.md).
+Vedere [evidenze e checklist client](./deploy/T01-copilot-studio-compatibility.md).
 
 ## 2. Validare architettura e costi
 
@@ -91,7 +91,7 @@ Prerequisiti: T03-T04 e verifica documentale T01; prova tenant differita a T31.
   non assumere idoneita al Free Tier o promettere costo zero.
   Prezzi Milan da Pricing MCP il 2026-11-05: USD 2.16/mese con 30000 richieste,
   1 GB Lambda, media 2 s; USD 6.85 con media 10 s. Include PITR e log 7 giorni.
-  [Ipotesi, tariffe, prove e design proposto](./README.md#design-review-t05-t10-2026-11-05).
+  [Ipotesi, tariffe, prove e design proposto](./deploy/README.md#design-review-t05-t10-2026-11-05).
 - [ ] T10 - Presentare adapter, limiti, costi e rischio sandbox; ottenere
   accordo sul design definitivo prima di generare IaC. Esplicitare come
   escludere il tool Chromium senza modificare upstream.
@@ -176,6 +176,8 @@ Prerequisiti: T11-T22.
 - [ ] T27 - Type-check, suite deployment, `cdk synth`, validazione template
   e compliance con `awsiac`. Risolvere errori prima di procedere; qualsiasi
   eccezione sandbox va documentata puntualmente, non soppressa in blocco.
+  Stato 2026-11-06: type-check, 41 test e synth superati; eccezione temporanea
+  per advisory CDK/minimatch approvata. Validazione IaC/compliance non completata.
 
 Criterio: test e template validati; prova client ancora esplicitamente T31.
 
@@ -186,18 +188,27 @@ Prerequisiti: T27 e approvazione esplicita delle modifiche AWS.
 - [ ] T28 - Verificare identita/regione, mostrare costi e `cdk diff`.
   Chiedere approvazione distinta per bootstrap, pubblicazione artifact,
   creazione chiavi e deploy. Profilo `lutechlab-sandbox`, regione `eu-south-1`.
-- [ ] T29 - Deploy approvato, CloudFormation a stato terminale, endpoint e
+- [x] T29 - Deploy approvato, CloudFormation a stato terminale, endpoint e
   output non sensibili. Verificare key/usage plan/stage, tabella attiva e
   configurazione DynamoDB della Lambda.
+  Evidenza 2026-11-06: deploy eseguito dall'utente; stack CREATE_COMPLETE,
+  Lambda Active/Successful, DynamoDB ACTIVE/PAY_PER_REQUEST e PITR ENABLED.
+  Key v1 abilitata e associata al piano; entrambi i log group retention 7 giorni.
 - [ ] T30 - Endpoint reale: chiave assente/errata/disabilitata respinta prima
   della Lambda applicativa; key valida, handshake, discovery e tool read-only.
   Registrare metriche/log senza valori di chiavi. Eseguire anche i casi T23.
+  Evidenza parziale 2026-11-06: smoke live 13 controlli superati, handshake
+  200 SSE, notifica 202 vuota, 9 tool e get_server_info funzionanti.
+  POST/GET/DELETE senza key o con key errata 403; POST con key vuota 403;
+  GET/DELETE con key valida 405. Cold start osservato nei REPORT Lambda.
+  Restano key disabilitata, header duplicati/malformati e percorso lungo;
+  persistenza cross-invocation/cold-start e rotazione restano T32/T33.
 - [ ] T31 - Dopo T29-T30, chiudere T01/T02. Wizard MCP nel tenant:
   Tools > Add a tool > New tool > Model Context Protocol; API key, Header,
   nome `x-api-key`. Operatore inserisce key nel campo protetto.
   Provare discovery e invocazione dall'agente reale; verificare ogni richiesta
   osservata, incluse notifiche e GET/DELETE se emessi, senza registrare key.
-  Seguire [checklist T01](./T01-copilot-studio-compatibility.md).
+  Seguire [checklist T01](./deploy/T01-copilot-studio-compatibility.md).
   Se il client altera/omette l'header, applicare T02. Concordare tool ammessi
   e conferme per effetti esterni; non pubblicare un'integrazione non verificata.
 - [ ] T32 - Create/update tra invocazioni distinte, salvataggio DynamoDB e
@@ -210,6 +221,28 @@ Prerequisiti: T27 e approvazione esplicita delle modifiche AWS.
   Dichiarare eccezione sandbox e requisito di auth per altri ambienti.
   Nessun destroy automatico.
 
+## 7. Test nel Copilot personale e condivisione ai colleghi
+
+- [ ] T35 - Testare i prompt nel proprio Microsoft 365 Copilot con l'agente
+  AWS Pricing Calculator, non solo nel pannello Test di Copilot Studio.
+  Prerequisiti: accettazione T31, verifica dei controlli di sicurezza ancora
+  aperti e approvazione esplicita della pubblicazione nel canale destinatario.
+  Verificare disponibilita del canale, licenze e policy del tenant.
+  Provare ricerca servizi, campi EC2 Milano e creazione/aggiornamento/validazione
+  di una stima di test; registrare chiamate effettive, esiti e fedelta dei
+  riepiloghi. Nessun build/export senza conferma dedicata; nessuna API key
+  nei prompt. Non assumere che il test in Studio provi il canale personale.
+- [ ] T36 - Condividere l'agente ai colleghi dopo T35 e approvazione esplicita
+  di destinatari e permessi. Iniziare con un gruppo pilota identificato,
+  verificare licenze, policy e accesso al canale; concedere uso dell'agente,
+  non modifica o accesso alla chiave salvo necessita approvata.
+  Dichiarare il perimetro sandbox: credenziale condivisa, nessun isolamento
+  delle stime per utente, costi non limitati in modo garantito.
+  Verificare con un collega accesso e prompt read-only, controllare eventuali
+  richieste di connessione senza distribuire la chiave, e documentare revoca
+  dell'accesso e responsabile del supporto. Se serve isolamento o uso fuori
+  sandbox, fermarsi e approvare prima un nuovo design di sicurezza.
+
 ## Definition of done
 
 - [ ] Copilot Studio usa il servizio reale con API key protetta e ruotabile.
@@ -219,10 +252,12 @@ Prerequisiti: T27 e approvazione esplicita delle modifiche AWS.
 - [ ] Revoca misurata, log privi di chiavi, costi e limiti documentati.
 - [ ] Eccezione key-only esplicita e limitata alla sandbox, non autenticazione.
 - [ ] Deployment e test sotto `deploy/`; runbook aggiornato, upstream invariato.
+- [ ] Prompt verificati nel Copilot personale sul canale effettivo (T35).
+- [ ] Agente condiviso al gruppo approvato e accesso pilota verificato (T36).
 
 ## Prompt da passare a Copilot
 
-> Usa aws-serverless-deployer e segui deploy/TODO.md in ordine di dipendenza.
+> Usa aws-serverless-deployer e segui TODO.md in ordine di dipendenza.
 > Prepara MCP per Copilot Studio con REST API, API key generata in x-api-key,
 > usage plan dedicato, Lambda e DynamoDB. Nessuna Lambda authorizer o Secrets
 > Manager: key-only e' un'eccezione sandbox accettata, non autenticazione.
