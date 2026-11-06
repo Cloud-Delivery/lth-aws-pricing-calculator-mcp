@@ -1,5 +1,18 @@
 # Lutech AWS Pricing Calculator MCP
 
+## AWS architecture
+
+[![Planned AWS Pricing Calculator MCP sandbox architecture](./deploy/aws-pricing-mcp-sandbox.drawio.png)](./deploy/aws-pricing-mcp-sandbox.drawio.png)
+
+Planned sandbox architecture, not a deployed stack.
+[Editable draw.io source](./deploy/aws-pricing-mcp-sandbox.drawio).
+The PNG includes the editable diagram and is exported with a 20 px margin
+at 150% scale:
+
+```powershell
+& 'C:\Program Files\draw.io\draw.io.exe' --export --format png --embed-diagram --border 20 --scale 1.5 --theme light --output 'deploy\aws-pricing-mcp-sandbox.drawio.png' 'deploy\aws-pricing-mcp-sandbox.drawio'
+```
+
 ## Repository layout and upstream upgrades
 
 - [`sample-aws-pricing-calculator-mcp`](./sample-aws-pricing-calculator-mcp/)
